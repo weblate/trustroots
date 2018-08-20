@@ -21,7 +21,7 @@
         }
       }).
       state('messageThread', {
-        url: '/messages/:username',
+        url: '/messages/:username?userId',
         templateUrl: '/modules/messages/views/thread.client.view.html',
         controller: 'MessagesThreadController',
         controllerAs: 'thread',
@@ -31,8 +31,27 @@
           // A string value resolves to a service
           UserProfilesService: 'UserProfilesService',
           SettingsService: 'SettingsService',
+          Users: 'Users',
 
-          userTo: function (UserProfilesService, $stateParams) {
+          /* @ngInject */
+          userTo: function (UserProfilesService, $q, $stateParams) {
+
+            // Deleted users are passed in by just ID
+            if ($stateParams.userId) {
+              var deferred = $q.defer();
+              deferred.resolve({
+                _id: $stateParams.userId
+              });
+              return deferred.promise;
+
+              /*
+              return $q.resolve({
+                _id: $stateParams.userId
+              });
+              */
+            }
+
+            // Get actual user
             return UserProfilesService.get({
               username: $stateParams.username
             });

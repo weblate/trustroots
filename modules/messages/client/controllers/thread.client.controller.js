@@ -1,15 +1,6 @@
 (function () {
   'use strict';
 
-  /*
- * checklist:
- * - scope init variable - needed?
- * - scaffolding order
- * - directive scaffolding ord.
- * - check $apply and $timeout order
- * - check if vm.isInitialized should come much later?
- */
-
   angular
     .module('messages')
     .controller('MessagesThreadController', MessagesThreadController);
@@ -17,11 +8,21 @@
   /* @ngInject */
   function MessagesThreadController($rootScope, $scope, $stateParams, $state, $timeout, $filter, $analytics, Authentication, Messages, MessagesRead, messageCenterService, locker, userTo) {
 
+    console.log('$stateParams:', $stateParams);
+    console.log('userTo:', userTo);
+
     // Go back to inbox on these cases
     // - No recepient defined
     // - Not signed in
     // - Sending messages to yourself
     if (!$stateParams.username || !Authentication.user || Authentication.user._id === userTo._id) {
+      $state.go('inbox');
+    }
+
+    // It's possible to pass `$stateParams.userId` alongside `$stateParams.username`
+    // This will ensure they're identical because otherwise it would be possible to create URLs
+    // that look like they're messages with someone, but are actually with someone else
+    if ($stateParams.userId && $stateParams.username !== $stateParams.userId) {
       $state.go('inbox');
     }
 
@@ -77,6 +78,12 @@
         // Get message from cache, use default if it doesn't exist
         vm.content = locker.driver('session').get(cachePrefix, '');
       }
+
+      userTo.$promise = {
+        then: function (callback) {
+          callback();
+        }
+      };
 
       // Fetches first page of messages after receiving user has finished loading (we need the userId from there)
       userTo.$promise.then(function () {

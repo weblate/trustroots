@@ -14,7 +14,10 @@
         ng-class="{ 'threadlist-thread-unread': !thread.read }">
       <div class="media" ng-click="inbox.openThread(thread.with)">
         <div class="media-left">
-          <a ui-sref="messageThread({ username: thread.with.username })">
+          <a ui-sref="messageThread({
+            username: thread.with.username || thread.with._id,
+            userId: !thread.with.username && thread.with._id ? thread.with._id : null
+          })">
             <div tr-avatar
                  data-user="thread.with"
                  data-size="32"
@@ -23,7 +26,10 @@
           </a>
         </div>
         <div class="media-body">
-          <a ui-sref="messageThread({ username: thread.with.username })">
+          <a ui-sref="messageThread({
+            username: thread.with.username || thread.with._id,
+            userId: !thread.with.username && thread.with._id ? thread.with._id : null
+          })">
 
             <small class="text-muted pull-right">
               <i class="icon-reply"
