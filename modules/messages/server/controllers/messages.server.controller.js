@@ -497,7 +497,6 @@ exports.threadByUser = function (req, res, next, userId) {
           }
         },
         function (err, data) {
-          console.log(data);
           if (err) {
             return done(err);
           }
