@@ -471,21 +471,20 @@ exports.list = function (req, res) {
   }
 
   // Some of the filters are based on `user` schema
-  if (filters.hasArrayFilter('languages') || filters.hasArrayFilter('tribes') || filters.hasObjectFilter('seen')) {
-    query.push({
-      $lookup: {
-        from: 'users',
-        localField: 'user',
-        foreignField: '_id',
-        as: 'user'
-      }
-    });
-    // Because above `$lookup` returns an array with one user
-    // `[{userObject}]`, we have to unwind it back to `{userObject}`
-    query.push({
-      $unwind: '$user'
-    });
-  }
+  query.push({
+    $lookup: {
+      from: 'users',
+      localField: 'user',
+      foreignField: '_id',
+      as: 'user'
+    }
+  });
+
+  // Because above `$lookup` returns an array with one user
+  // `[{userObject}]`, we have to unwind it back to `{userObject}`
+  query.push({
+    $unwind: '$user'
+  });
 
   // Last seen filter
   if (filters.hasObjectFilter('seen')) {
@@ -556,6 +555,14 @@ exports.list = function (req, res) {
       });
     }
   }
+
+  // Check for suspended users
+  query.push({
+    $match: {
+      'user.public': true,
+      'user.roles': { $ne: 'suspended' }
+    }
+  });
 
   // Pick fields to receive
   query.push({
