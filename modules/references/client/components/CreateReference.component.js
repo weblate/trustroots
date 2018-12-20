@@ -9,10 +9,10 @@ import Interaction from './create-reference/Interaction';
 import Recommend from './create-reference/Recommend';
 import {
   ReferenceToSelfInfo,
-  LoadingInfo,
   DuplicateInfo,
   SubmittedInfo,
 } from './create-reference/Info';
+import Loading from '@/modules/core/client/components/Loading';
 
 const api = { references };
 
@@ -102,7 +102,7 @@ export default function CreateReference({ userFrom, userTo }) {
 
   if (userFrom._id === userTo._id) return <ReferenceToSelfInfo />;
 
-  if (isLoading) return <LoadingInfo />;
+  if (isLoading) return <Loading />;
 
   if (isDuplicate) return <DuplicateInfo userTo={userTo} />;
 
