@@ -175,6 +175,7 @@ module.exports = {
       'modules/admin/server/**',
       'modules/admin/tests/**',
       'modules/core/server/services/file-upload.service.js',
+      'modules/users/server/controllers/users.import.server.controller.js',
       'modules/references/server/**',
       'modules/references/tests/server/**',
       'modules/users/tests/server/user-change-locale.server.routes.tests.js',

@@ -5,6 +5,7 @@
  */
 var usersPolicy = require('../policies/users.server.policy'),
     userProfile = require('../controllers/users.profile.server.controller'),
+    userImport = require('../controllers/users.import.server.controller'),
     userPassword = require('../controllers/users.password.server.controller'),
     userAuthentication = require('../controllers/users.authentication.server.controller');
 
@@ -19,6 +20,9 @@ module.exports = function (app) {
   // Confirm user removal
   app.route('/api/users/remove/:token').all(usersPolicy.isAllowed)
     .delete(userProfile.removeProfile);
+
+  app.route('/api/couchsurfing-import').all(usersPolicy.isAllowed)
+    .post(userImport.csImportUploadField); // , userProfile.processCsImport);
 
   app.route('/api/users-avatar').all(usersPolicy.isAllowed)
     .post(userProfile.avatarUploadField, userProfile.avatarUpload);
