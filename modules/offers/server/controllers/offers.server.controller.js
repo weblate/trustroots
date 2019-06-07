@@ -559,8 +559,10 @@ exports.list = function (req, res) {
   // Check for suspended users
   query.push({
     $match: {
-      'user.public': true,
-      'user.roles': { $ne: 'suspended' }
+      'user.public': true
+      // We could do this, but since suspended users
+      // are always `public:false`, we don't have to.
+      // 'user.roles': { $ne: 'suspended' }
     }
   });
 
