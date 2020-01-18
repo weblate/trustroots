@@ -1,10 +1,11 @@
 import React from 'react';
 import '@/config/client/i18n';
-import { withTranslation } from '@/modules/core/client/utils/i18n-angular-load';
+import { useTranslation } from 'react-i18next';
 
 /**
  * I'm just a little loading info.
  */
-export default withTranslation('core')(({ t }) => (
-  <div>{t('Wait a moment...')}</div>
-));
+export default function Loading() {
+  const { t } = useTranslation('core');
+  return <div>{t('Wait a moment...')}</div>;
+}
