@@ -108,7 +108,7 @@
     "express-session": "1.17.0",
     "fbgraph": "1.4.4",
     "firebase": "3.9.0",
-    "firebase-admin": "4.2.1",
+    "firebase-admin": "8.10.0",
     "fs-extra": "8.1.0",
     "git-rev": "0.2.1",
     "glob": "7.1.6",
