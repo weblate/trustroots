@@ -5,16 +5,14 @@ import React, { useState } from 'react';
 import ReactMapGL, { NavigationControl, ScaleControl } from 'react-map-gl';
 
 // Internal dependencies
-import osmStyle from './osm.json';
+import MapStyleControl from './MapStyleControl';
 import '@/modules/core/client/components/Map/map.less';
+import { MAPBOX_TOKEN, MAP_STYLE_DEFAULT } from './constants';
 
 export default function Map(props) {
-  const MAPBOX_TOKEN = window.settings?.mapbox?.publicKey;
-  const MAP_STYLE_MAPBOX_STREETS = 'mapbox://styles/mapbox/streets-v11';
-  const MAP_STYLE_OSM = osmStyle;
-  const MAP_STYLE_DEFAULT = MAPBOX_TOKEN
-    ? MAP_STYLE_MAPBOX_STREETS
-    : MAP_STYLE_OSM;
+  const showMapStyles =
+    props.showMapStyles &&
+    (!!MAPBOX_TOKEN || process.env.NODE_ENV !== 'production');
 
   const {
     children,
@@ -23,6 +21,9 @@ export default function Map(props) {
   } = props;
 
   const { t } = useTranslation('core');
+
+  // Set default map style here
+  const [mapStyle, setMapstyle] = useState(MAP_STYLE_DEFAULT);
 
   const [viewport, setViewport] = useState({
     latitude: location[0],
@@ -35,7 +36,7 @@ export default function Map(props) {
       dragRotate={false}
       height={320}
       mapboxApiAccessToken={MAPBOX_TOKEN}
-      mapStyle={MAP_STYLE_DEFAULT}
+      mapStyle={mapStyle}
       onViewportChange={setViewport}
       touchRotate={false}
       width="100%"
@@ -52,6 +53,11 @@ export default function Map(props) {
       <div className="map-scale-control-container">
         <ScaleControl />
       </div>
+      {showMapStyles && (
+        <div className="map-style-control-container">
+          <MapStyleControl mapStyle={mapStyle} setMapstyle={setMapstyle} />
+        </div>
+      )}
       {children}
     </ReactMapGL>
   );
@@ -60,5 +66,6 @@ export default function Map(props) {
 Map.propTypes = {
   children: PropTypes.node,
   location: PropTypes.arrayOf(PropTypes.number),
+  showMapStyles: PropTypes.bool,
   zoom: PropTypes.number,
 };

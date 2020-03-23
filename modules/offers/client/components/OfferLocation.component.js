@@ -6,7 +6,12 @@ import React from 'react';
 import Map from '@/modules/core/client/components/Map/index';
 import OfferLocationOverlay from './OfferLocationOverlay';
 
-export default function OfferLocation({ location, offerType, offerStatus }) {
+export default function OfferLocation({
+  location,
+  offerStatus,
+  offerType,
+  showMapStyles,
+}) {
   if (!location || location.length !== 2) {
     return null;
   }
@@ -19,6 +24,7 @@ export default function OfferLocation({ location, offerType, offerStatus }) {
       location={location}
       width="100%"
       zoom={11}
+      showMapStyles={showMapStyles}
     >
       <OfferLocationOverlay
         location={location}
@@ -31,6 +37,7 @@ export default function OfferLocation({ location, offerType, offerStatus }) {
 
 OfferLocation.propTypes = {
   location: PropTypes.arrayOf(PropTypes.number).isRequired,
-  offerType: PropTypes.string,
   offerStatus: PropTypes.string,
+  offerType: PropTypes.string,
+  showMapStyles: PropTypes.bool,
 };
