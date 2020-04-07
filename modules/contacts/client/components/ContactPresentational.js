@@ -12,7 +12,7 @@ export default function ContactPresentational({
   situation,
   onClickRemove,
 }) {
-  const { t } = useTranslation('contact');
+  const { t } = useTranslation('contacts');
 
   const { username, displayName, locationFrom, locationLiving } = contact.user;
   return (
@@ -25,7 +25,7 @@ export default function ContactPresentational({
         <div>
           <i className="icon-fw icon-building text-muted"></i>
           <small>
-            <Trans ns="contact" locationLiving={locationLiving}>
+            <Trans ns="contacts" locationLiving={locationLiving}>
               Lives in{' '}
               <a href={`/search?location=${locationLiving}`}>
                 {{ locationLiving }}
@@ -38,7 +38,7 @@ export default function ContactPresentational({
         <div>
           <i className="icon-fw icon-home text-muted"></i>
           <small>
-            <Trans ns="contact" locationFrom={locationFrom}>
+            <Trans ns="contacts" locationFrom={locationFrom}>
               From{' '}
               <a href={`/search?location=${locationFrom}`}>
                 {{ locationFrom }}

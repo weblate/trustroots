@@ -16,7 +16,7 @@ export default function Navigation({
   onNext,
   onSubmit,
 }) {
-  const { t } = useTranslation('reference');
+  const { t } = useTranslation('references');
 
   const backButton = (
     <button
